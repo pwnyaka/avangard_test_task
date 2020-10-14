@@ -12,5 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('index');
+})->name('Home');
+
+Route::get('/news', function () {
+    return view('index');
+})->name('News');
+
+Route::get('/category', function () {
+    return view('index');
+})->name('Category');
+
+Auth::routes();
