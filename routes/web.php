@@ -15,12 +15,8 @@ Route::get('/', function () {
     return view('index');
 })->name('Home');
 
-Route::get('/news', function () {
-    return view('index');
-})->name('News');
+Route::get('/weather', 'WeatherController@index')->name('Weather');
 
-Route::get('/category', function () {
-    return view('index');
-})->name('Category');
+Route::get('/orders', 'OrdersController@index')->name('Orders');
 
 Auth::routes();
