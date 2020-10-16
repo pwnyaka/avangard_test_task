@@ -45,7 +45,14 @@
                         @endswitch</td>
                     <td>{{ $order->name }}</td>
                     <td>{{ $order->total }}</td>
-                    <td>-</td>
+                    <td><ul>
+                            @forelse($ordersComposition[$order->id] as $item)
+                                <li>{{ $item->quantity }}шт. {{ $item->name }} </li>
+                            @empty
+                                Error
+                            @endforelse
+                        </ul>
+                    </td>
                 </tr>
             @empty
                 Error

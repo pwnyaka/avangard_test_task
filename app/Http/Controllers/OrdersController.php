@@ -8,21 +8,25 @@ use DB;
 
 class OrdersController extends Controller
 {
-    public function index() {
-//        $orders = Order::all();
+    public function index()
+    {
         $orders = DB::table('orders')
             ->join('partners', 'partners.id', '=', 'orders.partner_id')
             ->join('order_products', 'order_products.order_id', '=', 'orders.id')
-//            ->join('orders', 'users.id', '=', 'orders.user_id')
             ->select('orders.*', 'partners.name', 'order_products.order_id',
-//                DB::raw('group_concat(order_products.product_id) as composition'),
                 DB::raw('sum(order_products.price * order_products.quantity) as total'))
-//            ->select('orders.*', 'partners.name', 'order_products.product_id', 'order_products.quantity', 'order_products.price')
             ->groupBy('order_products.order_id')
             ->orderBy('id')
-            ->limit(10)
             ->get();
-//        dd($orders);
-        return view('orders.index')->with('orders', $orders);
+
+        $ordersComposition = DB::table('order_products')
+            ->join('products', 'products.id', '=', 'order_products.product_id')
+            ->select('order_products.order_id','order_products.quantity', 'products.name')
+            ->orderBy('order_id')
+            ->get()
+            ->groupBy('order_id')
+            ->toArray();
+
+        return view('orders.index')->with('orders', $orders)->with('ordersComposition', $ordersComposition);
     }
 }
