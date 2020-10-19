@@ -15,7 +15,7 @@ class OrdersProductsTableSeeder extends Seeder
     {
         $faker = Faker\Factory::create();
 
-        $limit = 100;
+        $limit = 1000;
 	
         $products = Product::get();
         $orders = Order::get();

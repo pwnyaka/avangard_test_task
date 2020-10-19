@@ -25,6 +25,10 @@ Route::group([
     Route::get('/', 'OrdersController@index')->name("index");
     Route::get('/{id}/edit', 'OrdersController@edit')->name("edit");
     Route::post('/{order}/update', 'OrdersController@update')->name("update");
+    Route::get('/new', 'OrdersController@newOrders')->name("new_orders");
+    Route::get('/current', 'OrdersController@currentOrders')->name("current_orders");
+    Route::get('/fail', 'OrdersController@failOrders')->name("fail_orders");
+    Route::get('/performed', 'OrdersController@performedOrders')->name("performed_orders");
 });
 
 
