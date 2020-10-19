@@ -26,7 +26,7 @@
             <tbody>
             @forelse($orders as $order)
                 <tr>
-                    <th scope="row">{{ $order->id }}</th>
+                    <th scope="row"><a href="{{ route('Orders.edit', $order) }}" target="_blank">{{ $order->id }}</a></th>
                     <td>@switch($order->status)
                             @case(0)
                             Новый
@@ -47,7 +47,7 @@
                     <td>{{ $order->total }}</td>
                     <td><ul>
                             @forelse($ordersComposition[$order->id] as $item)
-                                <li>{{ $item->quantity }}шт. {{ $item->name }} </li>
+                                <li>{{ $item->quantity }} шт. {{ $item->name }} </li>
                             @empty
                                 Error
                             @endforelse

@@ -17,6 +17,15 @@ Route::get('/', function () {
 
 Route::get('/weather', 'WeatherController@index')->name('Weather');
 
-Route::get('/orders', 'OrdersController@index')->name('Orders');
+
+Route::group([
+    'prefix' => 'orders',
+    'as' => 'Orders.'
+], function () {
+    Route::get('/', 'OrdersController@index')->name("index");
+    Route::get('/{id}/edit', 'OrdersController@edit')->name("edit");
+    Route::post('/{order}/update', 'OrdersController@update')->name("update");
+});
+
 
 Auth::routes();
