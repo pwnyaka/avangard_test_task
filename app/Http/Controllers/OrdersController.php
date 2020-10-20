@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\OrderShipped;
 use App\Order;
 use App\Partner;
 use App\Repositories\OrderProductsRepository;
@@ -42,20 +43,37 @@ class OrdersController extends Controller
         ]);
     }
 
-    public function update(Order $order, Request $request)
+    public function update(Order $order, Request $request, OrderRepository $orderRepository)
     {
-
+        $status = $order->status;
         $data = $request->except('_token');
         $this->validate($request, Order::rules($order));
 
-        if ($order->status != 20 && $data['status'] == 20) {
-            dd('GO!');
+        $result = $order->fill($data)->save();
+
+        if ($result) {
+            if ($status != 20 && $data['status'] == 20) {
+//                $this->ship($order, $orderRepository);
+            }
+            return redirect()->route('Orders.index')->with('success', 'Данные заказа успешно изменены!');
+        } else {
+            return redirect()->route('Orders.index')->with('error', 'При изменении данных произошла ошибка!');
         }
 
-        $order->fill($data)->save();
-
-        return redirect()->route('Orders.index')->with('success', 'Данные заказа успешно изменены!');
     }
+
+//    TODO
+
+//    public function ship(Order $order, OrderRepository $orderRepository) {
+//        $array = [];
+//        $list = $orderRepository->getEmails($order);
+//        foreach ($list as $item) {
+//            array_push($array, $item['vendorMail'], $item['partnerMail']);
+//        }
+//        $list = array_unique($array);
+//
+//        \Mail::to(array_shift($list))->bcc($list)->send(new OrderShipped($order));
+//    }
 
     public function newOrders(OrderRepository $orderRepository)
     {
