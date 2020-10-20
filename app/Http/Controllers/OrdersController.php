@@ -15,7 +15,6 @@ class OrdersController extends Controller
     {
         session()->forget(['orders_composition', 'orders_total']);
         $orders = $orderRepository->getAll();
-//        dd($orders);
 
         foreach ($orders as $order) {
             session()->push('orders_total.' . $order->id, $order->total);
